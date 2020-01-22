@@ -1,7 +1,34 @@
 
 defmodule App.SimpleWeather do
+  @moduledoc """
+    Get The cities Weather with Task async/wait
+  """
 
-  def start(cities) do
+  @doc """
+  Get Temp Weather in default cities:
+
+  ["Campo Grande", "Cuiabá", "Sao Paulo", "Belo Horizonte", "Salvador"]
+
+  ## Example:
+  
+     iex-> App.SimpleWeather.start
+  """
+  def start() do 
+    ["Campo Grande", "Cuiabá", "Sao Paulo", "Belo Horizonte", "Salvador"]
+    |> parallel_cities
+  end
+
+  @doc """
+  Get Temp Weather in List of Cities.
+
+  ## Example:
+  
+     iex-> App.SimpleWeather.start(["Belem"])
+      
+  """
+  def start(cities), do: parallel_cities(cities) 
+
+  defp parallel_cities(cities) do
     cities
     |> Enum.map(&create_task/1)
     |> Enum.map(&Task.await/1)
