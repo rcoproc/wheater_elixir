@@ -30,7 +30,9 @@ defmodule App.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 0.9.0"},
-      {:json, "~> 0.3.0"}
+			{:json, "~> 0.3.0"},
+			{:earmark, "~> 1.2", only: :dev},
+			{:ex_doc, "~> 0.19", only: :dev}
     ]
   end
 end

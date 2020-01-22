@@ -1,23 +1,17 @@
 defmodule App.Weather do
 
-  def get_appid() do
-    "bc0864ef50f0056c78dc59a5532d58e1"
-  end
+  @moduledoc """
+    Get The cities Weather with Spawn Process / Send
+  """
 
-  def get_endpoint(location) do
-    location = URI.encode(location)
-    "http://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=#{get_appid()}"
-  end
+  @doc """
+  Get Temp Weather in List of Cities.
 
-  def get_endpoint_by_zip_code(zip_code) do
-    zip_code = URI.encode(zip_code)
-    "http://api.openweathermap.org/data/2.5/weather?zip=#{zip_code},us&APPID=#{get_appid()}"
-  end
+  ## Example:
 
-  def kelvin_to_celsius(kelvin) do
-    (kelvin - 273.15) |> Float.round(1)
-  end
+     iex-> App.Weather.start(["Belem", "Campo Grande", "Sao Paulo"])
 
+  """
   def start(cities) do
     manager_pid = spawn(__MODULE__, :manager, [[], Enum.count(cities)])
 
@@ -60,6 +54,24 @@ defmodule App.Weather do
       _ ->
         manager(cities, total)
     end
+  end
+
+  defp get_appid() do
+    "bc0864ef50f0056c78dc59a5532d58e1"
+  end
+
+  defp get_endpoint(location) do
+    location = URI.encode(location)
+    "http://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=#{get_appid()}"
+  end
+
+  defp get_endpoint_by_zip_code(zip_code) do
+    zip_code = URI.encode(zip_code)
+    "http://api.openweathermap.org/data/2.5/weather?zip=#{zip_code},us&APPID=#{get_appid()}"
+  end
+
+  defp kelvin_to_celsius(kelvin) do
+    (kelvin - 273.15) |> Float.round(1)
   end
 
   defp parser_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}) do

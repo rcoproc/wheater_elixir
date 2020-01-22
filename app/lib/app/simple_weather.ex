@@ -14,7 +14,7 @@ defmodule App.SimpleWeather do
      iex-> App.SimpleWeather.start
   """
   def start() do 
-    ["Campo Grande", "Cuiabá", "Sao Paulo", "Belo Horizonte", "Salvador"]
+    ~w/Campo Grande Cuiabá Sao Paulo Belo Horizonte Salvador/
     |> parallel_cities
   end
 
